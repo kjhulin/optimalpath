@@ -29,9 +29,9 @@ public class Main {
             goals2.add(p.clone());
             goals3.add(p.clone());
         }
-        //ResourceCollector rc1 = new ResourceCollector(new RLPolicy(goals, 5, 5, 100000));
-       // ResourceCollector rc2 = new ResourceCollector(new GAPolicy(goals2, 5, 5, 100000));
-        ResourceCollector rc3 = new ResourceCollector(new HRPolicy(goals2, 5, 5, 100000));
+        ResourceCollector rc1 = new ResourceCollector(new RLPolicy(goals, 5, 5, 100000));
+        ResourceCollector rc2 = new ResourceCollector(new GAPolicy(goals2, 5, 5, 100000));
+        ResourceCollector rc3 = new ResourceCollector(new HRPolicy(goals3, 5, 5, 100000));
 
        
         
