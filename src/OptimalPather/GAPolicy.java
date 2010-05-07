@@ -105,7 +105,7 @@ public class GAPolicy extends Policy{
     @Override
     public void computePolicy() {
         population = initialize(popSize);
-        System.out.println("Created initial population");
+       // System.out.println("Created initial population");
         int maxCtr = 0;
         double lastMax = -1;
         int counter = 0;
@@ -136,7 +136,7 @@ public class GAPolicy extends Policy{
             double t = bestSoFar.fitness();
             //.out.println(counter + ":" +t);
             if(t > lastMax){
-                System.out.println(counter + ":" + t);
+                //System.out.println(counter + ":" + t);
                 //System.out.println(bestSoFar.toString());
                 lastMax = t;
                 maxCtr = 0;
@@ -149,7 +149,7 @@ public class GAPolicy extends Policy{
         System.out.println("Converged after " + counter + " iterations!");
 
         Q = bestSoFar.dat;
-        System.out.println(toString());
+        //System.out.println(toString());
 
     }
 

@@ -4,6 +4,7 @@
  */
 
 package OptimalPather;
+
 import OptimalPather.Policy.*;
 import java.util.*;
 class ResourceCollector {
@@ -14,6 +15,7 @@ class ResourceCollector {
     	ArrayList<Agent> agents = new ArrayList<Agent>();
     	//could pass any of the above as arguments for extensibility
     	public ResourceCollector (Policy ppp) {
+
                 agents.add(new Agent(new point(1,1,-1,0,true),10));
                 agents.add(new Agent(new point(3,1,-1,0,true),10));
                 policy = ppp;
@@ -22,17 +24,17 @@ class ResourceCollector {
 
     		
     		policy.computePolicy();
-    		System.out.println(policy.toString(agents));
-    		printAgentLocs();
+    		//System.out.println(policy.toString(agents));
+    		//printAgentLocs();
                 int count=0;
     		while(resourcesRemain()){
                     count++;
                         if(count>1000){
-                            System.out.println("Maximum exceeded.  Terminating.");
+                            System.out.println("Maximum iterations exceeded.  Terminating.");
                             break;
                         }
                             
-    			System.out.println("Moving agents...");
+    			//System.out.println("Moving agents...");
     			for(int i = 0; i < agents.size(); i++) {
     				Agent a = agents.get(i);
     				point newPoint = new point(a.location.x, a.location.y, 0, 0, false);
@@ -42,7 +44,7 @@ class ResourceCollector {
     				if(a.isFull)	{ //Carrying resources
     					if(a.isHome(newPoint)) {
     						agents.get(i).isFull = false;
-    						System.out.println("Agent " + i + " dropped off resources.");
+    						//System.out.println("Agent " + i + " dropped off resources.");
     						// potentially keep track of what goes into the sink
     					} else {
     						agents.get(i).moveToHome();
@@ -56,7 +58,7 @@ class ResourceCollector {
     						agents.get(i).isFull = true;
     						//if empty, calculate policy
     						if(nomResources(newPoint, a.capacity)) { //this resource is expired
-    							System.out.println("Resource at " + newPoint.toString() + " is depleted. Recomputing policy");
+    							//System.out.println("Resource at " + newPoint.toString() + " is depleted. Recomputing policy");
     							if(policy instanceof GAPolicy){
                                                             policy = new GAPolicy(policy.goals, policy.sizeX, policy.sizeY, policy.iterations);
                                                         }else if(policy instanceof RLPolicy){
@@ -80,9 +82,9 @@ class ResourceCollector {
     				}
 
     			}
-    			System.out.println(policy.toString(agents));
-    			printAgentLocs();
-    			System.out.println("__________________");
+    			//System.out.println(policy.toString(agents));
+    			//printAgentLocs();
+    			//System.out.println("__________________");
 
                 }
                 System.out.println(count);
@@ -110,7 +112,7 @@ class ResourceCollector {
     		for(int i = 0; i < policy.goals.size(); i++) {
     			if(loc.x == policy.goals.get(i).x && loc.y == policy.goals.get(i).y) {
     				policy.goals.get(i).reward = policy.goals.get(i).reward - cap;
-    				System.out.println(policy.goals.get(i).reward + " remaining at " + policy.goals.get(i).toString());
+    				//System.out.println(policy.goals.get(i).reward + " remaining at " + policy.goals.get(i).toString());
     				if(policy.goals.get(i).reward <= 0) {
     					policy.goals.remove(i);
     					return true;
@@ -122,7 +124,7 @@ class ResourceCollector {
     	}
 
     	boolean resourcesRemain() {
-                System.out.println("Resources: " + policy.goals.size());
+               // System.out.println("Resources: " + policy.goals.size());
     		int sum = 0;
 
     		for(point a : policy.goals){
