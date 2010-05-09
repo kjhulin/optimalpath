@@ -12,7 +12,7 @@ package OptimalPather;
 
 import java.util.*;
 import java.text.*;
-public abstract class Policy {
+abstract class Policy {
     public abstract void computePolicy();
     DecimalFormat df = new DecimalFormat("00.0");
     static double alpha = .9;
