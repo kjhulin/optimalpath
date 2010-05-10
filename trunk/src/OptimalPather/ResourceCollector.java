@@ -115,7 +115,8 @@ class ResourceCollector {
                 }
                // System.out.println(System.nanoTime()-t);
                 long elapsedTimeMillis = System.currentTimeMillis() - start;
-                return elapsedTimeMillis;
+                //return elapsedTimeMillis;
+                return totalWorth;
         }
     	point isGoal(point x) {
             for(point p : policy.goals){
