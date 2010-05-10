@@ -33,7 +33,7 @@ class ResourceCollector {
     		while(resourcesRemain()){
                     count++;
                         if(count>maxCount){
-                            System.out.println("Maximum iterations exceeded.  Terminating.");
+                        //    System.out.println("Maximum iterations exceeded.  Terminating.");
                             break;
                         }
 
@@ -60,10 +60,10 @@ class ResourceCollector {
                                         newPoint.x += maxAction.dx;
     					newPoint.y += maxAction.dy;
                                     }catch(Exception e){
-                                        for(Agent aaa : agents){
-                                            System.out.println(aaa.toString());
-                                        }
-                                        System.out.println(policy.toString(new ArrayList<Agent>()));
+                                        //for(Agent aaa : agents){
+                                        //    System.out.println(aaa.toString());
+                                        //}
+                                        //System.out.println(policy.toString(new ArrayList<Agent>()));
                                         count = maxCount;
                                     }
     					

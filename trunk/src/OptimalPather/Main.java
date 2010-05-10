@@ -11,12 +11,17 @@ package OptimalPather;
  */
 import java.util.*;
 import OptimalPather.Policy.*;
+import java.io.*;
 public class Main {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        try{
+            PrintStream os1 = new PrintStream(new FileOutputStream("out.txt"));
+            //PrintStream os2 = new PrintStream(new FileOutputStream("out2.txt"));
+
         // manually set goal points
         Random rand = new Random();
         for(int i = 0; i < 100; i++){
@@ -45,14 +50,15 @@ public class Main {
                 ag3.add(a.clone());
             }
 
-            System.out.println(width + "x" + height + "grid; numGoals:" + numGoals + "; numAgents:" + numAgents);
+            //System.out.println(width + "x" + height + "grid; numGoals:" + numGoals + "; numAgents:" + numAgents);
             ResourceCollector rc1 = new ResourceCollector(new RLPolicy(goals, width, height, 100000),ag);
             ResourceCollector rc2 = new ResourceCollector(new GAPolicy(goals2, width, height, 100000),ag2);
             ResourceCollector rc3 = new ResourceCollector(new HRPolicy(goals3, width, height, 100000),ag3);
-            String s = "RL: " + rc1.run() + "; GA: " + rc2.run() + "; HR: " + rc3.run();
-            System.out.println(s);
+            os1.println(width + "," + height + "," + numGoals + "," + numAgents + "," + rc1.run() +"," + rc2.run() + "," + rc3.run());
+
+           
         }
-       
+        }catch(Exception e){}
         
         //new ResourceCollector();
     }

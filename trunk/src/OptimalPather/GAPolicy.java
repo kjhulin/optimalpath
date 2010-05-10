@@ -155,7 +155,7 @@ public class GAPolicy extends Policy{
                 break;
             }
         }
-        System.out.println("C:"+counter);
+        //System.out.println("C:"+counter);
         //System.out.println("Converged after " + counter + " iterations!");
 
         Q = bestSoFar.dat;
