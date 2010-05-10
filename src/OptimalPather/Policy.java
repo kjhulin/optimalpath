@@ -216,7 +216,7 @@ abstract class Policy {
         int y;
         int reward;
         int amount;
-        boolean agent;
+        boolean agent = false;
         public point(int a, int b){x=a;y=b;}
         public point(int a, int b, int c){x=a;y=b;reward = c;}
         public point(int a, int b, int c, int d, boolean ag){

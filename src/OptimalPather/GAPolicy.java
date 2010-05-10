@@ -33,10 +33,25 @@ public class GAPolicy extends Policy{
     public ArrayList<datum> initialize(int n){
         ArrayList<datum> ret = new ArrayList<datum>();
         for(int i = 0; i < n; i++){
-            ret.add(datum.getRandom(sizeX, sizeY, goals));
+            ret.add(getRandom(sizeX, sizeY, goals));
         }
         return ret;
     }
+     public datum getRandom(int sizeX, int sizeY, ArrayList<point> goals){
+
+            Random rand = new Random();
+            datum ret = new datum(sizeX, sizeY,goals);
+
+            ret.dat = new State[sizeX][sizeY];
+            for(int i = 0; i < sizeX; i++){
+                for(int j = 0; j < sizeY; j++){
+                    ret.dat[i][j]= new State(i,j);
+                    ret.dat[i][j].staticAction=Action.values()[rand.nextInt(Action.values().length)];
+                }
+            }
+
+            return ret;
+        }
     public datum breed(datum a, datum b){
         datum ret = new datum(sizeX, sizeY, goals);
         for(int i = 0; i < sizeX; i++){
@@ -136,7 +151,7 @@ public class GAPolicy extends Policy{
                 lastMax = t;
                 maxCtr = 0;
             }
-            if(maxCtr>sizeX*sizeY*10){
+            if(maxCtr>sizeX*sizeY){
                 break;
             }
         }
@@ -148,7 +163,7 @@ public class GAPolicy extends Policy{
 
     }
 
-     static class datum implements Comparable {
+     class datum implements Comparable {
          ArrayList<point> goals;
         //static String[] domain = new String[]{"<",">","v","^"};
         double gamma = .9;
@@ -164,21 +179,7 @@ public class GAPolicy extends Policy{
             dat = new State[sizeX][sizeY];
         }
 
-        public static datum getRandom(int sizeX, int sizeY, ArrayList<point> goals){
-
-            Random rand = new Random();
-            datum ret = new datum(sizeX, sizeY,goals);
-
-            ret.dat = new State[sizeX][sizeY];
-            for(int i = 0; i < sizeX; i++){
-                for(int j = 0; j < sizeY; j++){
-                    ret.dat[i][j]= new State(i,j);
-                    ret.dat[i][j].staticAction=Action.values()[rand.nextInt(Action.values().length)];
-                }
-            }
-
-            return ret;
-        }
+       
 
 
         /*
@@ -284,13 +285,7 @@ public class GAPolicy extends Policy{
 
         }
 
-        public point isGoal(int a, int b){
-            for(point p : goals){
-                if(p.x==a&&p.y==b&&!p.agent)
-                    return p;
-            }
-            return null;
-        }
+   
         public int compareTo(Object o) {
             datum d = (datum)o;
             double v1 = fitness();
