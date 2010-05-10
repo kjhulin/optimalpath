@@ -30,7 +30,9 @@ class ResourceCollector {
     		//printAgentLocs();
                 int count=0;
                 int maxCount = 10000;
-    		while(resourcesRemain()){
+    		//while(resourcesRemain()){
+                int totalWorth = 0;
+                while(count < 1000){
                     count++;
                         if(count>maxCount){
                         //    System.out.println("Maximum iterations exceeded.  Terminating.");
@@ -46,29 +48,38 @@ class ResourceCollector {
 
     				if(a.isFull)	{ //Carrying resources
     					if(a.isHome(newPoint)) {
-    						agents.get(i).isFull = false;
+    						a.isFull = false;
+                                                totalWorth+=a.worth;
+                                                a.worth = 0;
     						//System.out.println("Agent " + i + " dropped off resources.");
     						// potentially keep track of what goes into the sink
     					} else {
-    						agents.get(i).moveToHome();
+    						a.moveToHome();
     					}
 
     				} else { //Looking for resources
                                    // System.out.println(a.location.x + " " + a.location.y);
-                                    try{
+                                    //try{
     					maxAction = policy.Q[a.location.x][a.location.y].maxAction();
-                                        newPoint.x += maxAction.dx;
-    					newPoint.y += maxAction.dy;
-                                    }catch(Exception e){
+                                        if(maxAction!=null){
+                                            newPoint.x += maxAction.dx;
+                                            newPoint.y += maxAction.dy;
+                                        }else{
+                                            return 0;
+                                        }
+                                   // }catch(Exception e){
+
                                         //for(Agent aaa : agents){
                                         //    System.out.println(aaa.toString());
                                         //}
                                         //System.out.println(policy.toString(new ArrayList<Agent>()));
-                                        count = maxCount;
-                                    }
-    					
-    					if(isGoal(newPoint)) {
-    						agents.get(i).isFull = true;
+                                   //     policy.computePolicy();
+                                   //     continue;
+                                    //}
+    					point g = null;
+    					if((g=isGoal(newPoint))!=null) {
+    						a.isFull = true;
+                                                a.worth = g.reward * a.capacity;
     						//if empty, calculate policy
     						if(nomResources(newPoint, a.capacity)) { //this resource is expired
     							//System.out.println("Resource at " + newPoint.toString() + " is depleted. Recomputing policy");
@@ -90,7 +101,7 @@ class ResourceCollector {
     						}
 
     					} else {
-    						agents.get(i).location = newPoint;
+    						a.location = newPoint;
     					}
     				}
 
@@ -100,15 +111,16 @@ class ResourceCollector {
     			//System.out.println("__________________");
 
                 }
-                return count;
+                System.out.println(totalWorth);
+                return totalWorth;
         }
-    	boolean isGoal(point x) {
+    	point isGoal(point x) {
             for(point p : policy.goals){
                 if(p.x==x.x && p.y==x.y && !p.agent){
-                    return true;
+                    return p;
                 }
             }
-            return false;
+            return null;
     	}
 
     	boolean isAgent(int a, int b) {
@@ -123,7 +135,8 @@ class ResourceCollector {
     	boolean nomResources(point loc, int cap) {
     		for(int i = 0; i < policy.goals.size(); i++) {
     			if(loc.x == policy.goals.get(i).x && loc.y == policy.goals.get(i).y) {
-    				policy.goals.get(i).reward = policy.goals.get(i).reward - cap;
+                                //Removed to take out reducing goals.
+    				//policy.goals.get(i).reward = policy.goals.get(i).reward - cap;
     				//System.out.println(policy.goals.get(i).reward + " remaining at " + policy.goals.get(i).toString());
     				if(policy.goals.get(i).reward <= 0) {
     					policy.goals.remove(i);
@@ -186,6 +199,7 @@ class ResourceCollector {
 
     class Agent {
     	int capacity;
+        int worth = 0;
     	boolean isFull;
     	point home;
     	point location;

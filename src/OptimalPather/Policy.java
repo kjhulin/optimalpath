@@ -186,6 +186,7 @@ abstract class Policy {
                         max = a;
                     }
                 }
+                if(reward.get(max)<=0) return null;
                 return max;
             }
             public String maxString(){
