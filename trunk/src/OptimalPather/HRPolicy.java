@@ -35,6 +35,8 @@ public class HRPolicy extends Policy {
         }
     }
     public boolean isInteresting(int i, int j){
+        Action a = Q[i][j].staticAction;
+        if(Q[i+a.dx][j+a.dy].interesting) return true;
         State up; State down; State left; State right;
         if(i>0) left = Q[i-1][j]; else left = null;
         if(i<sizeX-1) right = Q[i+1][j]; else right = null;

@@ -226,6 +226,7 @@ abstract class Policy {
         	amount = d;
         	agent = ag;
         }
+
         public point clone(){
             point r = new point(x,y,reward,amount,agent);
             return r;

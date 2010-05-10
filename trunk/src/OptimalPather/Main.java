@@ -18,21 +18,40 @@ public class Main {
      */
     public static void main(String[] args) {
         // manually set goal points
-        ArrayList<point> goals = new ArrayList<point>();
-        goals.add(new point(0,0, 50, 50, false));
-        goals.add(new point(4,4,100, 30, false));
-        goals.add(new point(0,4,150, 20,false));
-        goals.add(new point(4,0,200,10,false));
-        ArrayList<point> goals2 = new ArrayList<point>();
-        ArrayList<point> goals3 = new ArrayList<point>();
-        for(point p : goals){
-            goals2.add(p.clone());
-            goals3.add(p.clone());
-        }
-        ResourceCollector rc1 = new ResourceCollector(new RLPolicy(goals, 5, 5, 100000));
-        ResourceCollector rc2 = new ResourceCollector(new GAPolicy(goals2, 5, 5, 100000));
-        ResourceCollector rc3 = new ResourceCollector(new HRPolicy(goals3, 5, 5, 100000));
+        Random rand = new Random();
+        for(int i = 0; i < 100; i++){
+            ArrayList<point> goals = new ArrayList<point>();
+            int width = rand.nextInt(5)+5;
+            int height = rand.nextInt(5)+5;
+            int numGoals = rand.nextInt(6)+1;
+            for(int j = 0; j < numGoals; j++){
+                goals.add(new point(rand.nextInt(width),rand.nextInt(height),rand.nextInt(8)*50+50,rand.nextInt(6)*10+10,false));
+            }
+            ArrayList<point> goals2 = new ArrayList<point>();
+            ArrayList<point> goals3 = new ArrayList<point>();
+            for(point p : goals){
+                goals2.add(p.clone());
+                goals3.add(p.clone());
+            }
+            ArrayList<Agent> ag = new ArrayList<Agent>();
+            int numAgents = rand.nextInt(5)+2;
+            for(int j = 0; j < numAgents; j++){
+                ag.add(new Agent(new point(rand.nextInt(width),rand.nextInt(height),-1,0,true),10));       
+            }
+            ArrayList<Agent> ag2 = new ArrayList<Agent>();
+            ArrayList<Agent> ag3 = new ArrayList<Agent>();
+            for(Agent a : ag){
+                ag2.add(a.clone());
+                ag3.add(a.clone());
+            }
 
+            System.out.println(width + "x" + height + "grid; numGoals:" + numGoals + "; numAgents:" + numAgents);
+            ResourceCollector rc1 = new ResourceCollector(new RLPolicy(goals, width, height, 100000),ag);
+            ResourceCollector rc2 = new ResourceCollector(new GAPolicy(goals2, width, height, 100000),ag2);
+            ResourceCollector rc3 = new ResourceCollector(new HRPolicy(goals3, width, height, 100000),ag3);
+            String s = "RL: " + rc1.run() + "; GA: " + rc2.run() + "; HR: " + rc3.run();
+            System.out.println(s);
+        }
        
         
         //new ResourceCollector();

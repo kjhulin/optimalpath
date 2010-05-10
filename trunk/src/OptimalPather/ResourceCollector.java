@@ -14,26 +14,29 @@ class ResourceCollector {
     	//ArrayList<point> goals = new ArrayList<point>();
     	ArrayList<Agent> agents = new ArrayList<Agent>();
     	//could pass any of the above as arguments for extensibility
-    	public ResourceCollector (Policy ppp) {
+    	public ResourceCollector (Policy ppp, ArrayList<Agent> al) {
 
-                agents.add(new Agent(new point(1,1,-1,0,true),10));
-                agents.add(new Agent(new point(3,1,-1,0,true),10));
+                agents = al;
                 policy = ppp;
-    		//add the location of agent home points with negative reward
+    		
+    	}
+        public int run(){
+            //add the location of agent home points with negative reward
     		addAgentPoints();
 
-    		
+
     		policy.computePolicy();
     		//System.out.println(policy.toString(agents));
     		//printAgentLocs();
                 int count=0;
+                int maxCount = 10000;
     		while(resourcesRemain()){
                     count++;
-                        if(count>1000){
+                        if(count>maxCount){
                             System.out.println("Maximum iterations exceeded.  Terminating.");
                             break;
                         }
-                            
+
     			//System.out.println("Moving agents...");
     			for(int i = 0; i < agents.size(); i++) {
     				Agent a = agents.get(i);
@@ -51,9 +54,19 @@ class ResourceCollector {
     					}
 
     				} else { //Looking for resources
+                                   // System.out.println(a.location.x + " " + a.location.y);
+                                    try{
     					maxAction = policy.Q[a.location.x][a.location.y].maxAction();
-    					newPoint.x += maxAction.dx;
+                                        newPoint.x += maxAction.dx;
     					newPoint.y += maxAction.dy;
+                                    }catch(Exception e){
+                                        for(Agent aaa : agents){
+                                            System.out.println(aaa.toString());
+                                        }
+                                        System.out.println(policy.toString(new ArrayList<Agent>()));
+                                        count = maxCount;
+                                    }
+    					
     					if(isGoal(newPoint)) {
     						agents.get(i).isFull = true;
     						//if empty, calculate policy
@@ -87,9 +100,8 @@ class ResourceCollector {
     			//System.out.println("__________________");
 
                 }
-                System.out.println(count);
-    	}
-
+                return count;
+        }
     	boolean isGoal(point x) {
             for(point p : policy.goals){
                 if(p.x==x.x && p.y==x.y && !p.agent){
@@ -184,7 +196,12 @@ class ResourceCollector {
     		capacity = c;
     		isFull = false;
     	}
-
+        public String toString(){
+            return "Home:" + home.toString() + " Location:" + location.toString();
+        }
+        public Agent clone(){
+            return new Agent(home.clone(),capacity);
+        }
     	int distFromHome() {
     		return (int)(Math.abs(home.x-location.x) + Math.abs(home.y-location.y));
     	}
