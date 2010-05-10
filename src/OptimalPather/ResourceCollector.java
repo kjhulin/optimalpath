@@ -20,7 +20,8 @@ class ResourceCollector {
                 policy = ppp;
     		
     	}
-        public int run(){
+        public long run(){
+                long start = System.currentTimeMillis();
             //add the location of agent home points with negative reward
     		addAgentPoints();
 
@@ -112,8 +113,9 @@ class ResourceCollector {
     			//System.out.println("__________________");
 
                 }
-                System.out.println(totalWorth);
-                return totalWorth;
+               // System.out.println(System.nanoTime()-t);
+                long elapsedTimeMillis = System.currentTimeMillis() - start;
+                return elapsedTimeMillis;
         }
     	point isGoal(point x) {
             for(point p : policy.goals){
