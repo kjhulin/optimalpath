@@ -24,7 +24,7 @@ public class Main {
 
         // manually set goal points
         Random rand = new Random();
-        for(int i = 0; i < 100; i++){
+        for(int i = 0; i < 1000; i++){
             ArrayList<point> goals = new ArrayList<point>();
             int width = rand.nextInt(5)+5;
             int height = rand.nextInt(5)+5;

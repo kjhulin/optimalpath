@@ -206,6 +206,7 @@ abstract class Policy {
                 }
                 return max;
             }
+    @Override
             public String toString(){
                 return maxString();
             }
@@ -233,11 +234,13 @@ abstract class Policy {
             return r;
         }
         @Override
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
         public boolean equals(Object o){
                 point p = (point)o;
                 return p.x==x&&p.y==y;
         }
 
+    @Override
         public String toString() {
         	return "(" + x + ", " + y + ")";
         }
