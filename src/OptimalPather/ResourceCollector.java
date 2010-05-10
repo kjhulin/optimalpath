@@ -59,23 +59,24 @@ class ResourceCollector {
 
     				} else { //Looking for resources
                                    // System.out.println(a.location.x + " " + a.location.y);
-                                    //try{
-    					maxAction = policy.Q[a.location.x][a.location.y].maxAction();
+                                    try{
+
+                                        maxAction = policy.Q[a.location.x][a.location.y].maxAction();
                                         if(maxAction!=null){
                                             newPoint.x += maxAction.dx;
                                             newPoint.y += maxAction.dy;
                                         }else{
                                             return 0;
                                         }
-                                   // }catch(Exception e){
-
+                                   }catch(Exception e){
+                                        return 0;
                                         //for(Agent aaa : agents){
                                         //    System.out.println(aaa.toString());
                                         //}
                                         //System.out.println(policy.toString(new ArrayList<Agent>()));
                                    //     policy.computePolicy();
                                    //     continue;
-                                    //}
+                                    }
     					point g = null;
     					if((g=isGoal(newPoint))!=null) {
     						a.isFull = true;
