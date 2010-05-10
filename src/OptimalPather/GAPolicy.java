@@ -18,21 +18,16 @@ public class GAPolicy extends Policy{
 
     ArrayList<datum> population = null;
     datum bestSoFar = null;
-    int popSize = 100;
+    int popSize = 200;
     //static int sizeX = 10;
     //static int sizeY = 10;
     //ArrayList<point> goals = new ArrayList<point>();
 
     public GAPolicy(ArrayList<point> p, int xx, int yy, int iters){
-        
         goals=p;
         sizeX = xx;
         sizeY = yy;
         iterations = iters;
-
-        
-       
-
     }
  
     public ArrayList<datum> initialize(int n){
@@ -60,7 +55,7 @@ public class GAPolicy extends Policy{
         for(int i = 0; i <sizeX; i++){
             for(int j = 0; j < sizeY; j++){
                 ret.dat[i][j] = new State(i,j);
-                if(sizeY < aa){
+                if(j < aa){
                     ret.dat[i][j].staticAction = a.dat[i][j].staticAction;
                 }else{
                     ret.dat[i][j].staticAction = b.dat[i][j].staticAction;
@@ -145,8 +140,8 @@ public class GAPolicy extends Policy{
                 break;
             }
         }
-
-        System.out.println("Converged after " + counter + " iterations!");
+        System.out.println("C:"+counter);
+        //System.out.println("Converged after " + counter + " iterations!");
 
         Q = bestSoFar.dat;
         //System.out.println(toString());
@@ -291,7 +286,7 @@ public class GAPolicy extends Policy{
 
         public point isGoal(int a, int b){
             for(point p : goals){
-                if(p.x==a&&p.y==b)
+                if(p.x==a&&p.y==b&&!p.agent)
                     return p;
             }
             return null;
