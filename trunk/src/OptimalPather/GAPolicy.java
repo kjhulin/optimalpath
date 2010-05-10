@@ -132,7 +132,7 @@ public class GAPolicy extends Policy{
             Random r = new Random();
             while(!population.isEmpty()){//Deterministic tournament selection
                 ArrayList<datum> tmp = new ArrayList<datum>();
-                for(int j = 0; !population.isEmpty()&&j < 8; j++){
+                for(int j = 0; !population.isEmpty()&&j < 2; j++){
                     tmp.add(population.remove(r.nextInt(population.size())));
 
                 }
@@ -253,11 +253,18 @@ public class GAPolicy extends Policy{
                     point p = isGoal(curr.posX,curr.posY);
                     double g = p.reward;
                     int count = 0;
-                    while(!v.isEmpty()){
-                        v.pop().staticReward = Math.pow(gamma,count)*g;
-                       // System.out.println( dat[p.x][p.y].staticReward);
-                        count++;
-                    }
+                    if(g>0)
+                        while(!v.isEmpty()){
+                            v.pop().staticReward = Math.pow(gamma,count)*g;
+                           // System.out.println( dat[p.x][p.y].staticReward);
+                            count++;
+                        }
+                    else
+                         while(!v.isEmpty()){
+                            v.pop().staticReward = g;
+                           // System.out.println( dat[p.x][p.y].staticReward);
+                            count++;
+                        }
                     return dat[i][j].staticReward;
                 }
                 

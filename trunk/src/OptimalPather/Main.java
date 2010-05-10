@@ -58,7 +58,7 @@ public class Main {
 
            
         }
-        }catch(Exception e){}
+        }catch(Exception e){System.err.println(e.toString());e.printStackTrace(System.err);}
         
         //new ResourceCollector();
     }

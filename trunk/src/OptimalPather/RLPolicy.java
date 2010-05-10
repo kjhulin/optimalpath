@@ -73,7 +73,7 @@ public class RLPolicy extends Policy{
         Random rand = new Random();
         for(int t = 0; t < iterations; t++){
           // System.out.println(iter + ":" + cx + "," + cy);
-
+          alpha = 1/(double)(t+1);
             double r = rand.nextDouble();
             Action a = null;
             if(r <= .25){
